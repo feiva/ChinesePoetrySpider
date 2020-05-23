@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'ChinesePoetry.pipelines.CSVPipeline': 300,
-   'ChinesePoetry.pipelines.JsonPipeline': 301,
+   # 'ChinesePoetry.pipelines.JsonPipeline': 301,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,7 +93,7 @@ ITEM_PIPELINES = {
 import datetime
 
 today = datetime.datetime.now()
-log_file_path = 'scrapy_{}_{}_{}.log'.format(today.year, today.month, today.day)
+log_file_path = 'log/scrapy_{}_{}_{}.log'.format(today.year, today.month, today.day)
 LOG_FILE = log_file_path
 LOG_LEVEL = 'INFO'
 

@@ -24,7 +24,7 @@ class CSVPipeline:
     # FEED_EXPORT_FIELDS =
 
     def __init__(self):
-        self.file = open('TangPoetry.csv', 'wb')
+        self.file = open('data/TangPoetry.csv', 'wb')
         self.exporter = CsvItemExporter(self.file, include_headers_line=True,encoding='utf-8')
         self.exporter.fields_to_export = TangPoetryItem.KEYS
         self.exporter.start_exporting()
@@ -53,7 +53,7 @@ class CSVPipeline:
 class JsonPipeline:
 
     def __init__(self):
-        self.file = open('TangPoetry.json', 'wb')
+        self.file = open('data/TangPoetry.json', 'wb')
         self.exporter = JsonItemExporter(self.file, ensure_ascii=False, encoding='utf-8')
         self.exporter.fields_to_export = TangPoetryItem.KEYS
         self.exporter.start_exporting()
