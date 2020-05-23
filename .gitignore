@@ -1,0 +1,4 @@
+.idea/
+open_source/*
+log/*
+*/__pycache__/*
