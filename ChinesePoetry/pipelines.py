@@ -9,7 +9,7 @@ import hashlib
 import logging
 
 from scrapy.exporters import CsvItemExporter, JsonItemExporter
-from ChinesePoetry.items import TangPoetryItem
+from ChinesePoetry.items import TangPoetryItem, PoetryTranslationItem
 
 
 def get_md5(string):
@@ -24,22 +24,22 @@ class CSVPipeline:
     # FEED_EXPORT_FIELDS =
 
     def __init__(self):
-        self.file = open('data/TangPoetry.csv', 'wb')
+        self.file = open('data/PoetryTranslation.csv', 'wb')
         self.exporter = CsvItemExporter(self.file, include_headers_line=True,encoding='utf-8')
-        self.exporter.fields_to_export = TangPoetryItem.KEYS
+        self.exporter.fields_to_export = PoetryTranslationItem.KEYS
         self.exporter.start_exporting()
         self.saved_list = []
 
     def process_item(self, item, spider):
         if item:
             item['id'] = len(self.saved_list)
-            # pid = get_md5(item['author']+item['title'])
+            item['pid'] = get_md5(item['author']+item['title'])
             # item['pid'] = pid + '_' + item['pageId'][1:-1] + '_' + item['pageNumber'][1:-1]
-            item['pid'] = get_md5(item['author']+item['title']+item['pageId'][1:-1]+item['pageNumber'][1:-1])
+            # item['pid'] = get_md5(item['author']+item['title']+item['pageId'][1:-1]+item['pageNumber'][1:-1])
             if item['pid'] not in self.saved_list:
                 self.exporter.export_item(item)
                 self.saved_list.append(item['pid'])
-        if len(self.saved_list)%100 == 0:
+        if len(self.saved_list) % 100 == 0:
             print('saved csv size: %s' % len(self.saved_list))
             logging.info('saved size: %s' % len(self.saved_list))
         return item

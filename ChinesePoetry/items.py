@@ -21,7 +21,7 @@ def fillna(value):
 
 
 def process_content(value):
-    return value.strip().replace('<br>', '').replace('&nbsp;','')
+    return value.replace('译文', '').replace('<br>', '').replace('&nbsp;','').strip()
 
 
 def process_pageId(value):
@@ -89,3 +89,31 @@ class TangPoetryItem(scrapy.Item):
 
     def keys(self):
         return self.KEYS
+
+
+class PoetryTranslationItem(scrapy.Item):
+    KEYS = [
+            'id',
+            'pid',
+            'title',
+            'author',
+            'dynasty',
+            'content',
+            'translation',
+            'url'
+    ]
+
+    id = scrapy.Field()
+    pid = scrapy.Field()
+    title = scrapy.Field()
+    author = scrapy.Field()
+    dynasty = scrapy.Field()
+    content = scrapy.Field(
+        input_processor = MapCompose(process_content),
+        output_processor = Join()
+    )
+    translation = scrapy.Field(
+        input_processor = MapCompose(process_content),
+        output_processor = Join()
+    )
+    url = scrapy.Field()
